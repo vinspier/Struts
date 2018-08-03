@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <constant name="struts.devMode" value="true"/>
+    <constant name="struts.custom.i18n.resources" value="bbs2009"/>
+    <package name="error" extends="struts-default">
+        <global-results>
+            <result name="error">/error.jsp</result>
+        </global-results>
+        <global-exception-mappings>
+            <exception-mapping result="error" exception="java.lang.Exception"></exception-mapping>
+        </global-exception-mappings>
+    </package>
+
+    <package name="admin" namespace="/admin" extends="error">
+
+        <default-action-ref name="index"/>
+        <action name="index">
+            <result>/admin/index.html</result>
+        </action>
+
+        <action name="*-*" class="com.bjsxt.bbs2009.action.{1}Action" method="{2}">
+            <result>/admin/{1}-{2}.jsp</result>
+            <result name="input">/admin/{1}-{2}.jsp</result>
+        </action>
+
+        <action name="language" class="com.bjsxt.bbs2009.action.languageAction">
+            <result name="input">/admin/Login-loginInput.jsp</result>
+        </action>
+
+    </package>
+
+    <package name="front" namespace="/" extends="struts-default">
+<!--        <default-action-ref name="index"/>
+        <action name="index">
+            <result type="redirectAction">Category-list</result>
+        </action>-->
+
+        <default-action-ref name="Category-list"/>
+        <action name="Category-list" class="com.bjsxt.bbs2009.action.CategoryAction" method="list">
+            <result>/index.jsp</result>
+        </action>
+    </package>
+</struts>
